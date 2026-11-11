@@ -2,6 +2,10 @@
 
 ## Required inputs
 
+For the minimal third-party distribution set, see
+[public assets](sbc3576-public-assets.md). It separates build inputs from
+prebuilt installation/update files and excludes owner-specific backups.
+
 The public repository contains the board support, kernel patches, configuration
 and verification tools. Three vendor inputs must be supplied separately:
 

@@ -6,6 +6,7 @@ HAOS 빌드에 연결한 코드와 재현 자료를 보관합니다.
 
 - [포팅 내용과 확인된 동작](Documentation/boards/sbc3576.md)
 - [빌드 방법과 필요한 파일](Documentation/boards/sbc3576-build.md)
+- [제3자에게 공유할 asset만 보기](Documentation/boards/sbc3576-public-assets.md)
 - [설치 과정·복구 기록](Documentation/boards/sbc3576-recovery.md)
 - [보관할 asset 목록과 SHA-256](Documentation/boards/sbc3576-assets.json)
 - [검증 기록](Documentation/boards/sbc3576-validation.json)

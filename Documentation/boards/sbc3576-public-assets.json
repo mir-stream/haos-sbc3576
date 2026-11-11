@@ -1,0 +1,98 @@
+{
+  "schema": 1,
+  "scope": "minimal asset set for third-party SBC3576 HAOS reproduction",
+  "source": {
+    "repository": "https://github.com/mir-stream/haos-sbc3576",
+    "branch": "sbc3576-18.5",
+    "port_tag": "sbc3576-port-18.5-20261111",
+    "port_commit": "e230cb6e476da11d73f4bf0c70c5b5abb10f0c60"
+  },
+  "public_upstream_sources": {
+    "haos": {
+      "repository": "https://github.com/home-assistant/operating-system",
+      "tag": "18.5",
+      "commit": "fc301f556647b53281e853b9ce7f44915b3c7b14"
+    },
+    "buildroot": {
+      "repository": "https://github.com/home-assistant/buildroot",
+      "commit": "5c344b3789e3f6d620cf11ffab60e522a875cc79"
+    },
+    "kernel": {
+      "repository": "https://github.com/rockchip-linux/kernel",
+      "commit": "fee15752e3222f759d20871fff1e66989c3f1e88",
+      "download": "https://github.com/rockchip-linux/kernel/archive/fee15752e3222f759d20871fff1e66989c3f1e88.tar.gz"
+    }
+  },
+  "required_extra_files_for_source_build": [
+    {
+      "name": "idbloader.img",
+      "bytes": 344064,
+      "sha256": "42f7ffb8377782b5348ee99ab30dc60509f033532e28f8949aba6d39f517e9b3",
+      "path": "build-inputs/idbloader.img",
+      "purpose": "initial installation image build",
+      "download_url": null,
+      "vendor_sdk_path": "u-boot/rk3576_idblock_v1.09.107.img"
+    },
+    {
+      "name": "uboot.img",
+      "bytes": 4194304,
+      "sha256": "9339a13ac3653fd0db44ad5a52e09f4e55609bf5e7cd3437d8fe9c070af3e5cb",
+      "path": "build-inputs/uboot.img",
+      "purpose": "initial installation image build",
+      "download_url": null,
+      "vendor_sdk_path": "u-boot/uboot.img"
+    },
+    {
+      "name": "rtl8852be-sdk-source.tar.gz",
+      "bytes": 10227273,
+      "sha256": "d67915ea5e38661f4885927495263b899707405eae83a9556876aaf570e9de21",
+      "path": "build-inputs/rtl8852be-sdk-source.tar.gz",
+      "purpose": "Wi-Fi module build",
+      "download_url": null,
+      "vendor_sdk_path": "external/rkwifibt/drivers/rtl8852be"
+    }
+  ],
+  "source_build_extra_bytes": 14765641,
+  "prebuilt_installation_alternative": {
+    "name": "haos_sbc3576-18.5.img.xz",
+    "bytes": 440438364,
+    "sha256": "d6613a3b4cef94019f31882a013539fd409314b0d2aeb98b67d6412c6bf48fee",
+    "path": "installer/haos_sbc3576-18.5.img.xz",
+    "purpose": "prebuilt initial installation, subject to documented loader/install limits",
+    "download_url": null
+  },
+  "optional_update": {
+    "name": "haos_sbc3576-18.5.raucb",
+    "bytes": 162307615,
+    "sha256": "2c891a6604b1d96eea00ae5c4c75edbc7c5cdbfb748004dc17c8b94f91a352ed",
+    "path": "optional-update/haos_sbc3576-18.5.raucb",
+    "purpose": "optional same-baseline update for compatible slots trusting the existing signer",
+    "download_url": null
+  },
+  "metadata": [
+    "SHA256SUMS",
+    "MANIFEST.json",
+    "README.txt"
+  ],
+  "availability": {
+    "staged_locally": true,
+    "github_release_uploaded": false,
+    "file_download_urls_available": false,
+    "checksums_verified": "2026-11-11"
+  },
+  "signing": "new builders generate their own signing identity; existing .raucb requires trust in its signer; no private signing key is distributed",
+  "limits": [
+    "full clean rebuild with the normalized wrapper is not yet completed",
+    "blank-board flashing of the SDK loader has not been hardware-tested",
+    "this is not a mirror of all normal Buildroot dependencies"
+  ],
+  "excluded_unneeded_assets": [
+    "full vendor SDK",
+    "large recovered SDK archive",
+    "historical port overlay archive",
+    "separate kernel and DTB binaries",
+    "uncompressed installation image",
+    "household network-guard derivative",
+    "owner-specific factory backups and private keys"
+  ]
+}
