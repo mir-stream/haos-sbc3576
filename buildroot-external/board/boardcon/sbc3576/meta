@@ -1,0 +1,14 @@
+BOARD_ID=sbc3576
+BOARD_NAME="Boardcon SBC3576 (experimental)"
+CHASSIS=embedded
+DEPLOYMENT=development
+BOOTLOADER=uboot
+KERNEL_FILE=Image
+PARTITION_TABLE_TYPE=hybrid
+BOOT_SIZE=16M
+# Vendor loader is included in the initial image, but excluded from OTA updates.
+BOOT_SPL=false
+BOOT_SPL_SIZE=16M
+BOOT_ENV_SIZE=0x8000
+SUPERVISOR_MACHINE=qemuarm-64
+SUPERVISOR_ARCH=aarch64

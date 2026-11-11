@@ -1,0 +1,147 @@
+{
+  "schema": 1,
+  "preserved_at": "2026-11-11",
+  "board": "Boardcon SBC3576",
+  "scope": "boot-corrected HAOS 18.5 baseline; later household deployment separate",
+  "upstream": {
+    "haos": {
+      "repository": "https://github.com/home-assistant/operating-system",
+      "tag": "18.5",
+      "commit": "fc301f556647b53281e853b9ce7f44915b3c7b14"
+    },
+    "buildroot": {
+      "repository": "https://github.com/home-assistant/buildroot",
+      "commit": "5c344b3789e3f6d620cf11ffab60e522a875cc79"
+    },
+    "kernel": {
+      "repository": "https://github.com/rockchip-linux/kernel",
+      "commit": "fee15752e3222f759d20871fff1e66989c3f1e88",
+      "download": "https://github.com/rockchip-linux/kernel/archive/fee15752e3222f759d20871fff1e66989c3f1e88.tar.gz"
+    },
+    "vendor_sdk": {
+      "filename": "rk3576_linux6.1_sdk-20250623.tar.bz2",
+      "bytes": 17006644768,
+      "source": "vendor-supplied removable media; no durable public download URL recorded",
+      "integrity": "damaged; preserve recovered inputs independently"
+    }
+  },
+  "build_inputs": [
+    {
+      "name": "idbloader.img",
+      "bytes": 344064,
+      "sha256": "42f7ffb8377782b5348ee99ab30dc60509f033532e28f8949aba6d39f517e9b3",
+      "archive_path": "inputs/idbloader.img",
+      "sdk_path": "u-boot/rk3576_idblock_v1.09.107.img",
+      "required_for": "initial installation image build",
+      "distribution": "external input; not committed or publicly uploaded"
+    },
+    {
+      "name": "uboot.img",
+      "bytes": 4194304,
+      "sha256": "9339a13ac3653fd0db44ad5a52e09f4e55609bf5e7cd3437d8fe9c070af3e5cb",
+      "archive_path": "inputs/uboot.img",
+      "sdk_path": "u-boot/uboot.img",
+      "required_for": "initial installation image build",
+      "distribution": "external input; not committed or publicly uploaded"
+    },
+    {
+      "name": "rtl8852be-sdk-source.tar.gz",
+      "bytes": 10227273,
+      "sha256": "d67915ea5e38661f4885927495263b899707405eae83a9556876aaf570e9de21",
+      "archive_path": "inputs/rtl8852be-sdk-source.tar.gz",
+      "sdk_path": "external/rkwifibt/drivers/rtl8852be",
+      "required_for": "Wi-Fi module build",
+      "distribution": "external recovered source input"
+    }
+  ],
+  "baseline_outputs": [
+    {
+      "name": "haos_sbc3576-18.5.img.xz",
+      "bytes": 440438364,
+      "sha256": "d6613a3b4cef94019f31882a013539fd409314b0d2aeb98b67d6412c6bf48fee",
+      "archive_path": "baseline/haos_sbc3576-18.5.img.xz"
+    },
+    {
+      "name": "haos_sbc3576-18.5.raucb",
+      "bytes": 162307615,
+      "sha256": "2c891a6604b1d96eea00ae5c4c75edbc7c5cdbfb748004dc17c8b94f91a352ed",
+      "archive_path": "baseline/haos_sbc3576-18.5.raucb"
+    },
+    {
+      "name": "Image",
+      "bytes": 42316288,
+      "sha256": "4dbbd9f971bf6d3f63b718208caf8a905589902abf933b592003f88dc020eece",
+      "archive_path": "baseline/Image"
+    },
+    {
+      "name": "rk3576-evb1-v10-linux.dtb",
+      "bytes": 289403,
+      "sha256": "fa5585d12ddba06b70612219d65e1811a91d5d6293ae9f4b26b5a01669d87d2f",
+      "archive_path": "baseline/rk3576-evb1-v10-linux.dtb"
+    },
+    {
+      "name": "haos_sbc3576-18.5.img",
+      "bytes": 2411745280,
+      "sha256": "8b8a273a5bbcd089e7e43b10c2a1e6bbd319f75aae8a9d4e3bba3212e76a1726",
+      "archive_path": "baseline/haos_sbc3576-18.5.img"
+    }
+  ],
+  "recovery_archives": [
+    {
+      "name": "recovered-porting-sources.tar.gz",
+      "bytes": 743272705,
+      "sha256": "b1bd4c9a2d2bbb9fe4b9a6ca1ce0b42d19735d1bbcfca779691e261a55bd6be5",
+      "archive_path": "provenance/recovered-porting-sources.tar.gz",
+      "required_for_current_build": false,
+      "description": "CRC-validated selected porting sources; not a repaired complete vendor SDK"
+    },
+    {
+      "name": "sbc3576-port-overlay.tar.gz",
+      "bytes": 2004495,
+      "sha256": "6fc90da309f38c7052748903bc17900e63947b9940fd2ef95ba8d4146dcae29f",
+      "archive_path": "provenance/sbc3576-port-overlay.tar.gz"
+    }
+  ],
+  "later_derivative": {
+    "description": "same kernel/DTB, later household network-guard rootfs; distinct from this branch baseline",
+    "outputs": [
+      {
+        "name": "haos_sbc3576-18.5.img.xz",
+        "bytes": 440438808,
+        "sha256": "dfc4f4067ef19f6bbcd3d04b7c856ede294e21114db67eddc2d7cd84a49d139e",
+        "archive_path": "later-network-guard/haos_sbc3576-18.5.img.xz"
+      },
+      {
+        "name": "haos_sbc3576-18.5.raucb",
+        "bytes": 162307615,
+        "sha256": "b18106b887a6a139651d50418e76ead1b97363843f85ab41933d1e106a86a614",
+        "archive_path": "later-network-guard/haos_sbc3576-18.5.raucb"
+      }
+    ],
+    "historical_verification": "signed update installed; both A and B boots verified"
+  },
+  "private_preservation": [
+    {
+      "name": "factory eMMC and boot0/boot1 backups",
+      "purpose": "original-device recovery; live backup, no complete restore test"
+    },
+    {
+      "name": "original factory U-Boot backup",
+      "purpose": "restore loader actually used for tested eMMC boot"
+    },
+    {
+      "name": "HAOS RAUC signing key.pem and cert.pem",
+      "purpose": "retain update trust for the existing device; never publish private key"
+    }
+  ],
+  "distribution": {
+    "source": "public Git repository",
+    "binary_archives": "preserved separately; this manifest is not a public download service",
+    "private_backups": "private local archive only"
+  },
+  "verification": {
+    "asset_hashes": "recomputed from source and archive copies on 2026-11-11",
+    "new_full_build": false,
+    "board_modified_during_archival": false
+  }
+}

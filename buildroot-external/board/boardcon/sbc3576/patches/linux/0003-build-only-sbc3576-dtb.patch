@@ -1,0 +1,10 @@
+--- a/arch/arm64/boot/dts/rockchip/Makefile
++++ b/arch/arm64/boot/dts/rockchip/Makefile
+@@ -349,3 +349,7 @@
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-tablet-rk806-single-v10.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-tablet-v10.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-tablet-v11.dtb
++
++# SBC3576 HAOS builds only its own DTB. The vendor camera changes are
++# board-specific and are not compatible with the other EVB device trees.
++dtb-$(CONFIG_ARCH_ROCKCHIP) := rk3576-evb1-v10-linux.dtb

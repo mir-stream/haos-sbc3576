@@ -1,0 +1,11 @@
+config BR2_PACKAGE_SBC3576_RTL8852BE
+	bool "SBC3576 vendor RTL8852BE Wi-Fi"
+	depends on BR2_LINUX_KERNEL
+	help
+	  Build the RTL8852BE PCIe driver recovered from the SBC3576 SDK.
+
+if BR2_PACKAGE_SBC3576_RTL8852BE
+config BR2_PACKAGE_SBC3576_RTL8852BE_SOURCE_DIR
+	string "Recovered RTL8852BE source directory"
+	default "/vendor/external/rkwifibt/drivers/rtl8852be"
+endif

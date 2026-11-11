@@ -1,0 +1,149 @@
+{
+  "record_date": "2026-11-11",
+  "scope": "HAOS port archival; no board writes, service restart or reboot",
+  "fresh_archival_checks": {
+    "source_preservation": {
+      "board_files_identical_to_archived_baseline_except_provenance": true,
+      "archive_entries_compared": 26,
+      "python_parse": "passed",
+      "shell_syntax": "passed",
+      "historical_archive": "sbc3576-port-overlay.tar.gz"
+    },
+    "boot_policy": {
+      "passed": 13,
+      "method": "bash with mock mmc/part/env/fatload/booti commands; no device writes"
+    },
+    "disk_image_structure": {
+      "image": "haos_sbc3576-18.5.img",
+      "bytes": 2411745280,
+      "hardware_boot_tested": false,
+      "primary_and_backup_gpt_valid": true,
+      "partitions": [
+        {
+          "number": 1,
+          "name": "hassos-boot",
+          "uuid": "b3dd0952-733c-4c88-8cba-cab9b8b4377f",
+          "offset": 16777216,
+          "size": 16777216
+        },
+        {
+          "number": 2,
+          "name": "hassos-kernel0",
+          "uuid": "26700fc6-b0bc-4ccf-9837-ea1a4cba3e65",
+          "offset": 33554432,
+          "size": 67108864
+        },
+        {
+          "number": 3,
+          "name": "hassos-system0",
+          "uuid": "8d3d53e3-6d49-4c38-8349-aff6859e82fd",
+          "offset": 100663296,
+          "size": 536870912
+        },
+        {
+          "number": 4,
+          "name": "hassos-kernel1",
+          "uuid": "fc02a4f0-5350-406f-93a2-56cbed636b5f",
+          "offset": 637534208,
+          "size": 67108864
+        },
+        {
+          "number": 5,
+          "name": "hassos-system1",
+          "uuid": "a3ec664e-32ce-4665-95ea-7ae90ce9aa20",
+          "offset": 704643072,
+          "size": 536870912
+        },
+        {
+          "number": 6,
+          "name": "hassos-bootstate",
+          "uuid": "33236519-7f32-4dff-8002-3390b62c309d",
+          "offset": 1241513984,
+          "size": 8388608
+        },
+        {
+          "number": 7,
+          "name": "hassos-overlay",
+          "uuid": "f1326040-5236-40eb-b683-aaa100a9afcf",
+          "offset": 1249902592,
+          "size": 100663296
+        },
+        {
+          "number": 8,
+          "name": "hassos-data",
+          "uuid": "a52a4597-fa3a-4851-aefd-2fbe9f849079",
+          "offset": 1350565888,
+          "size": 1061158912
+        }
+      ],
+      "firmware_exact": [
+        {
+          "name": "idbloader.img",
+          "offset": 32768,
+          "sha256": "42f7ffb8377782b5348ee99ab30dc60509f033532e28f8949aba6d39f517e9b3"
+        },
+        {
+          "name": "uboot.img",
+          "offset": 8388608,
+          "sha256": "9339a13ac3653fd0db44ad5a52e09f4e55609bf5e7cd3437d8fe9c070af3e5cb"
+        }
+      ],
+      "boot_script_matches_source": true,
+      "boot_script_crcs_valid": true,
+      "kernel_sha256": "4dbbd9f971bf6d3f63b718208caf8a905589902abf933b592003f88dc020eece",
+      "dtb_sha256": "fa5585d12ddba06b70612219d65e1811a91d5d6293ae9f4b26b5a01669d87d2f",
+      "initial_empty_partitions": {
+        "hassos-kernel1": true,
+        "hassos-system1": true,
+        "hassos-bootstate": true
+      },
+      "erofs": {
+        "feature_incompat": "0x23",
+        "kernel_supported_mask": "0x3f",
+        "block_size": 4096,
+        "filesystem_bytes": 170995712
+      }
+    },
+    "input_staging": "three input SHA-256/size checks and safe extraction passed",
+    "asset_preservation": "30 source/copy pairs SHA-256 checked; private contents not published",
+    "full_rebuild": false
+  },
+  "historical_hardware": {
+    "dates": [
+      "2026-11-08",
+      "2026-11-09",
+      "2026-11-10"
+    ],
+    "board": "Boardcon SBC3576; one physical sample",
+    "kernel": "6.1.99-sbc3576-haos",
+    "haos": "18.5",
+    "factory_loader_preserved": true,
+    "automatic_reboot": true,
+    "supervisor_healthy": true,
+    "data_partition_expanded": true,
+    "ethernet_and_wifi_connected": true,
+    "core_installed": "2026.11.0",
+    "kernel_config_requested_symbols": 281,
+    "embedded_kernel_config_matched": true,
+    "dtb_matched_factory_dump": true,
+    "later_guard_derivative": {
+      "signed_bundle_verified_on_board": true,
+      "slot_a_boot_verified": true,
+      "slot_b_boot_verified": true,
+      "not_part_of_port_baseline": true
+    }
+  },
+  "not_verified": [
+    "fresh full build with normalized wrapper",
+    "reflash of exact final baseline installer",
+    "initial SDK-loader installation on blank eMMC",
+    "microSD boot",
+    "forced failed-update rollback",
+    "power-loss recovery",
+    "full original eMMC restore",
+    "camera running on this HAOS port",
+    "long-term unattended reliability"
+  ],
+  "known_incident": "One later boot lost its Internet default route and remote VPN returned roughly an hour later. The route-loss actor was not isolated.",
+  "evidence_preservation": "original device-specific logs and backup inventories retained privately; this record deliberately omits identifiers and credentials"
+}

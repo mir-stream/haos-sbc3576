@@ -1,0 +1,127 @@
+# Boardcon's U-Boot 2017.09 has no `part number`, `setexpr`, `fileenv`,
+# SquashFS or LZO commands. Use fixed HAOS GPT slots with UUID guards,
+# FAT kernel slots and explicit retry-counter transitions.
+if test "${devtype}" != "mmc"; then
+    echo "SBC3576 HAOS requires an MMC boot device"
+    exit
+fi
+if mmc dev ${devnum}; then
+    echo "SBC3576 HAOS device mmc ${devnum}"
+else
+    exit
+fi
+
+# Refuse bootstate writes on the vendor layout or an unrelated disk.
+if part uuid mmc ${devnum}:6 haos_state_uuid; then
+    if test "${haos_state_uuid}" != "33236519-7f32-4dff-8002-3390b62c309d"; then
+        echo "Unexpected bootstate partition UUID"
+        exit
+    fi
+else
+    exit
+fi
+if part uuid mmc ${devnum}:3 haos_root_a; then
+    if test "${haos_root_a}" != "8d3d53e3-6d49-4c38-8349-aff6859e82fd"; then
+        exit
+    fi
+else
+    exit
+fi
+if part uuid mmc ${devnum}:5 haos_root_b; then
+    if test "${haos_root_b}" != "a3ec664e-32ce-4665-95ea-7ae90ce9aa20"; then
+        exit
+    fi
+else
+    exit
+fi
+if part start mmc ${devnum} 6 dev_env; then
+    echo "Bootstate at ${dev_env}"
+else
+    exit
+fi
+
+if mmc read ${ramdisk_addr_r} ${dev_env} 0x40; then
+    if env import -c ${ramdisk_addr_r} 0x8000; then
+        echo "Loaded HAOS bootstate"
+    else
+        setenv BOOT_ORDER "A B"
+        setenv BOOT_A_LEFT 3
+        setenv BOOT_B_LEFT 3
+        setenv MACHINE_ID
+    fi
+else
+    echo "Cannot read bootstate"
+    exit
+fi
+test -n "${BOOT_ORDER}" || setenv BOOT_ORDER "A B"
+test -n "${BOOT_A_LEFT}" || setenv BOOT_A_LEFT 3
+test -n "${BOOT_B_LEFT}" || setenv BOOT_B_LEFT 3
+
+setenv storebootstate 'if env export -c -s 0x8000 ${ramdisk_addr_r} BOOT_ORDER BOOT_A_LEFT BOOT_B_LEFT MACHINE_ID; then mmc write ${ramdisk_addr_r} ${dev_env} 0x40; else test 0 = 1; fi'
+setenv decrement_a 'if test ${BOOT_A_LEFT} = 3; then setenv BOOT_A_LEFT 2; elif test ${BOOT_A_LEFT} = 2; then setenv BOOT_A_LEFT 1; else setenv BOOT_A_LEFT 0; fi'
+setenv decrement_b 'if test ${BOOT_B_LEFT} = 3; then setenv BOOT_B_LEFT 2; elif test ${BOOT_B_LEFT} = 2; then setenv BOOT_B_LEFT 1; else setenv BOOT_B_LEFT 0; fi'
+setenv BOOT_CONDITION
+test -n "${MACHINE_ID}" || setenv BOOT_CONDITION "systemd.condition-first-boot=true"
+setenv bootargs_haos "console=ttyFIQ0 earlycon=uart8250,mmio32,0x2ad40000 rootwait rootfstype=erofs ro zram.enabled=1 zram.num_devices=3 systemd.machine_id=${MACHINE_ID} fsck.repair=yes ${BOOT_CONDITION}"
+
+# A slot removed from BOOT_ORDER must not prevent exhausted-order recovery.
+setenv BOOT_TRIES_LEFT
+setenv BOOT_HAS_A
+setenv BOOT_HAS_B
+for BOOT_SLOT in ${BOOT_ORDER}; do
+    if test "${BOOT_SLOT}" = "A"; then
+        setenv BOOT_HAS_A 1
+        if test ${BOOT_A_LEFT} -gt 0; then
+            setenv BOOT_TRIES_LEFT 1
+        fi
+    elif test "${BOOT_SLOT}" = "B"; then
+        setenv BOOT_HAS_B 1
+        if test ${BOOT_B_LEFT} -gt 0; then
+            setenv BOOT_TRIES_LEFT 1
+        fi
+    fi
+done
+if test -z "${BOOT_TRIES_LEFT}"; then
+    setenv BOOT_A_LEFT 3
+    setenv BOOT_B_LEFT 3
+    test -n "${BOOT_HAS_A}" || setenv BOOT_ORDER "${BOOT_ORDER} A"
+    test -n "${BOOT_HAS_B}" || setenv BOOT_ORDER "${BOOT_ORDER} B"
+fi
+
+for BOOT_SLOT in ${BOOT_ORDER}; do
+    setenv kernel_part
+    if test "${BOOT_SLOT}" = "A"; then
+        if test ${BOOT_A_LEFT} -gt 0; then
+            run decrement_a
+            setenv kernel_part 2
+            setenv root_uuid ${haos_root_a}
+        fi
+    elif test "${BOOT_SLOT}" = "B"; then
+        if test ${BOOT_B_LEFT} -gt 0; then
+            run decrement_b
+            setenv kernel_part 4
+            setenv root_uuid ${haos_root_b}
+        fi
+    fi
+    if test -n "${kernel_part}"; then
+        if fatload mmc ${devnum}:${kernel_part} ${kernel_addr_r} Image; then
+            if fatload mmc ${devnum}:${kernel_part} ${fdt_addr_r} board.dtb; then
+                # This BSP merges the DTB command line after the environment.
+                # Clear the factory root= and rw settings before selecting HAOS.
+                fdt addr ${fdt_addr_r}
+                fdt set /chosen bootargs ""
+                fdt set /chosen bootargs_ext ""
+                setenv bootargs "${bootargs_haos} root=PARTUUID=${root_uuid} rauc.slot=${BOOT_SLOT}"
+                if run storebootstate; then
+                    echo "Starting SBC3576 HAOS slot ${BOOT_SLOT}"
+                    booti ${kernel_addr_r} - ${fdt_addr_r}
+                else
+                    echo "Cannot persist bootstate; stopping"
+                    exit
+                fi
+            fi
+        fi
+    fi
+done
+run storebootstate
+echo "No bootable HAOS slot found; returning to U-Boot"

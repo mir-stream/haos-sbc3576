@@ -1,0 +1,28 @@
+{
+  "haos_tag": "18.5",
+  "haos_commit": "fc301f556647b53281e853b9ce7f44915b3c7b14",
+  "buildroot_commit": "5c344b3789e3f6d620cf11ffab60e522a875cc79",
+  "kernel_upstream_commit": "fee15752e3222f759d20871fff1e66989c3f1e88",
+  "kernel_version": "6.1.99",
+  "vendor_patch": "patches/linux/0001-sbc3576-vendor.patch",
+  "firmware": [
+    {
+      "name": "idbloader.img",
+      "sdk_path": "u-boot/rk3576_idblock_v1.09.107.img",
+      "bytes": 344064,
+      "sha256": "42f7ffb8377782b5348ee99ab30dc60509f033532e28f8949aba6d39f517e9b3"
+    },
+    {
+      "name": "uboot.img",
+      "sdk_path": "u-boot/uboot.img",
+      "bytes": 4194304,
+      "sha256": "9339a13ac3653fd0db44ad5a52e09f4e55609bf5e7cd3437d8fe9c070af3e5cb"
+    }
+  ],
+  "runtime_fixes": [
+    "Rockchip legacy script length-table terminator 0xffffffff",
+    "Clear loaded DTB chosen bootargs and bootargs_ext before booti"
+  ],
+  "verification": "See Documentation/boards/sbc3576-validation.json; factory loader preserved for hardware boot",
+  "scope": "boot-corrected baseline, before household network guard"
+}

@@ -1,3 +1,21 @@
+# SBC3576 Home Assistant OS port
+
+Boardcon SBC3576(RK3576)에 HAOS 18.5를 올린 커뮤니티 포크입니다.
+제조사 Linux 6.1.99, 기존 U-Boot, 보드 DTB와 RTL8852BE 드라이버를
+HAOS 빌드에 연결한 코드와 재현 자료를 보관합니다.
+
+- [포팅 내용과 확인된 동작](Documentation/boards/sbc3576.md)
+- [빌드 방법과 필요한 파일](Documentation/boards/sbc3576-build.md)
+- [설치 과정·복구 기록](Documentation/boards/sbc3576-recovery.md)
+- [보관할 asset 목록과 SHA-256](Documentation/boards/sbc3576-assets.json)
+- [검증 기록](Documentation/boards/sbc3576-validation.json)
+
+`sbc3576-18.5`는 초기 포팅 범위입니다. 이후 추가한 가정용 방화벽 정책과
+Home Assistant 기기·자동화 설정은 포함하지 않습니다. 공식 지원 보드나
+공식 OS 업데이트 대상은 아닙니다. 아래는 upstream README입니다.
+
+---
+
 # Home Assistant Operating System
 
 Home Assistant Operating System (formerly HassOS) is a Linux based operating system optimized to host [Home Assistant](https://www.home-assistant.io) and its [Apps](https://www.home-assistant.io/apps/).
