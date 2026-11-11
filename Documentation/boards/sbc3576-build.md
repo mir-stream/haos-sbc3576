@@ -6,8 +6,8 @@ For the minimal third-party distribution set, see
 [public assets](sbc3576-public-assets.md). It separates build inputs from
 prebuilt installation/update files and excludes owner-specific backups.
 
-The public repository contains the board support, kernel patches, configuration
-and verification tools. Three vendor inputs must be supplied separately:
+The public repository contains the board support, kernel patches, configuration,
+verification tools and these three vendor inputs in `vendor/sbc3576-inputs/`:
 
 | File | Purpose |
 | --- | --- |
@@ -16,11 +16,10 @@ and verification tools. Three vendor inputs must be supplied separately:
 | `rtl8852be-sdk-source.tar.gz` | Recovered Wi-Fi source; 10,227,273 bytes |
 
 Their exact SHA-256 values and original SDK paths are in
-[sbc3576-assets.json](sbc3576-assets.json). They are preserved in the owner's
-separate local asset archive, not in Git. Vendor binary redistribution is not
-assumed from the license of this repository. A clone by itself is therefore
-not a complete build kit. Obtain the matching inputs from the owner/vendor;
-do not substitute similarly named images from another RK3576 board.
+[sbc3576-assets.json](sbc3576-assets.json). They are ordinary Git files, not Git
+LFS pointers. Cloning this branch includes the board-specific inputs; there is
+no separate owner/vendor download step. Component notices and provenance are
+recorded in `vendor/sbc3576-inputs/README.md`.
 
 The Linux base is downloaded from the pinned public Rockchip commit. It does
 not require the entire damaged 17 GB vendor SDK. The larger recovered source
@@ -38,11 +37,12 @@ action; the preparation/verification commands do not start one.
 git clone --branch sbc3576-18.5 https://github.com/mir-stream/haos-sbc3576.git
 cd haos-sbc3576
 git submodule update --init
-python3 tools/sbc3576/prepare_inputs.py /path/to/inputs
+python3 tools/sbc3576/prepare_inputs.py
 ```
 
-Place the three files above directly in `/path/to/inputs`. The helper verifies
-all hashes before copying/extracting. Firmware is placed in the board's ignored
+The helper defaults to the three files tracked in `vendor/sbc3576-inputs/` and
+verifies all hashes before copying/extracting. An optional directory argument
+can still select an external copy with the same hashes. Firmware is placed in the board's ignored
 `firmware/` directory; Wi-Fi source is placed under ignored `vendor/sbc3576/`.
 Existing different firmware or an existing extracted Wi-Fi tree is not replaced.
 
@@ -66,6 +66,12 @@ Outputs are under `output/images/`:
 - `haos_sbc3576-18.5.raucb`: signed update bundle for this board identity.
 - `Image`: kernel, also embedded in the disk/update images.
 - `rk3576-evb1-v10-linux.dtb`: board DTB, also embedded in the kernel slots.
+
+The preserved baseline installer and update bundle are also downloadable from
+[the experimental release](https://github.com/mir-stream/haos-sbc3576/releases/tag/sbc3576-18.5-20261111).
+The release contains their checksums and manifest. The kernel/board code is the
+same preserved baseline; packaging the inputs into Git does not constitute a
+new full OS build.
 
 These paths and commands were normalized when preserving the port. The original
 full build passed; the normalized wrapper has syntax/preparation validation,

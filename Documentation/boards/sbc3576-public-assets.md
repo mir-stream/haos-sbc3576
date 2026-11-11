@@ -7,7 +7,8 @@ identities are in [sbc3576-public-assets.json](sbc3576-public-assets.json).
 ## Build the OS from source
 
 Clone this repository at `sbc3576-18.5` and initialize its Buildroot submodule.
-Only **three additional files** are required by the current board build:
+The current board build uses **three vendor input files**, all included in Git
+under `vendor/sbc3576-inputs/`:
 
 | File | Exact size | Role |
 | --- | ---: | --- |
@@ -16,8 +17,9 @@ Only **three additional files** are required by the current board build:
 | `rtl8852be-sdk-source.tar.gz` | 10,227,273 bytes (about 9.75 MiB) | Vendor Wi-Fi driver source |
 
 Together these are 14,765,641 bytes, about **14.08 MiB**. Both `.img` files
-come from the SDK; neither is a dump of the owner's board. Supply all three
-files to `tools/sbc3576/prepare_inputs.py` as described in the build guide.
+come from the SDK; neither is a dump of the owner's board. Run
+`python3 tools/sbc3576/prepare_inputs.py` after cloning; it verifies and stages
+the tracked files automatically. No Git LFS or separate input download is needed.
 
 The other dependencies already have a public source route:
 
@@ -35,9 +37,10 @@ development signing identity; the owner's private signing key is not needed.
 
 ## Install a prebuilt image
 
-For a user who does not build the OS, distribute
+For a user who does not build the OS, download
 **`haos_sbc3576-18.5.img.xz`**, 440,438,364 bytes (about 420 MiB), together
-with its SHA-256 and the installation instructions.
+with its SHA-256 and the installation instructions from
+[the experimental release](https://github.com/mir-stream/haos-sbc3576/releases/tag/sbc3576-18.5-20261111).
 
 The image already contains the loader region, kernel, DTB and Wi-Fi module.
 The three build inputs, standalone `Image`/DTB and uncompressed `.img` are not
@@ -62,17 +65,16 @@ baseline version, not a newer firmware release.
 
 ## Distribution metadata
 
-Ship `SHA256SUMS`, the public asset JSON, the source tag/commit, and the build and
-installation documents with the selected files. Checksums identify the exact
-file set; the tag `sbc3576-port-18.5-20261111` identifies the preserved port code.
-Future build outputs need their own hashes and versioned release record.
+The release contains the two large images, `SHA256SUMS` for those two files, and
+`MANIFEST.json` with the Git input locations, versioned download URLs and hashes.
+The three Git inputs have their own `vendor/sbc3576-inputs/SHA256SUMS`.
+The tag `sbc3576-18.5-20261111` includes the packaged inputs and download docs;
+`sbc3576-port-18.5-20261111` records the earlier preserved port code. The archived
+OS images have not been rebuilt or changed by this packaging step.
 
-The three build inputs and the two image/update files have been gathered into
-a separate **local public-distribution staging directory** with checksums.
-They have not been uploaded to GitHub Releases; the manifest does not contain
-invented download URLs. Vendor component notices and redistribution terms must
-be retained when publishing their files; this inventory does not grant a new
-license to those components.
+Vendor component notices are retained with the inputs; the repository's own
+license does not replace component-specific notices. Future build outputs need
+their own hashes and versioned release record.
 
 The full damaged SDK, the large recovered SDK archive, the old overlay archive,
 standalone kernel/DTB artifacts, household network-guard images and all

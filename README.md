@@ -5,6 +5,7 @@ Boardcon SBC3576(RK3576)에 HAOS 18.5를 올린 커뮤니티 포크입니다.
 HAOS 빌드에 연결한 코드와 재현 자료를 보관합니다.
 
 - [포팅 내용과 확인된 동작](Documentation/boards/sbc3576.md)
+- [실험용 설치 이미지·업데이트 다운로드](https://github.com/mir-stream/haos-sbc3576/releases/tag/sbc3576-18.5-20261111)
 - [빌드 방법과 필요한 파일](Documentation/boards/sbc3576-build.md)
 - [제3자에게 공유할 asset만 보기](Documentation/boards/sbc3576-public-assets.md)
 - [설치 과정·복구 기록](Documentation/boards/sbc3576-recovery.md)

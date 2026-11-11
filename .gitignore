@@ -8,7 +8,8 @@ output*/
 # Certificates
 *.pem
 
-# SBC3576 local build inputs and private/archive material
+# SBC3576 extracted/staged build inputs and private/archive material
+# Compressed vendor inputs are tracked separately in vendor/sbc3576-inputs/.
 /vendor/sbc3576/
 /buildroot-external/board/boardcon/sbc3576/firmware/*.img
 /sbc3576-assets/

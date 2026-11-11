@@ -33,7 +33,9 @@
       "archive_path": "inputs/idbloader.img",
       "sdk_path": "u-boot/rk3576_idblock_v1.09.107.img",
       "required_for": "initial installation image build",
-      "distribution": "external input; not committed or publicly uploaded"
+      "distribution": "tracked in Git under vendor/sbc3576-inputs/",
+      "repository_path": "vendor/sbc3576-inputs/idbloader.img",
+      "download_url": "https://raw.githubusercontent.com/mir-stream/haos-sbc3576/sbc3576-18.5-20261111/vendor/sbc3576-inputs/idbloader.img"
     },
     {
       "name": "uboot.img",
@@ -42,7 +44,9 @@
       "archive_path": "inputs/uboot.img",
       "sdk_path": "u-boot/uboot.img",
       "required_for": "initial installation image build",
-      "distribution": "external input; not committed or publicly uploaded"
+      "distribution": "tracked in Git under vendor/sbc3576-inputs/",
+      "repository_path": "vendor/sbc3576-inputs/uboot.img",
+      "download_url": "https://raw.githubusercontent.com/mir-stream/haos-sbc3576/sbc3576-18.5-20261111/vendor/sbc3576-inputs/uboot.img"
     },
     {
       "name": "rtl8852be-sdk-source.tar.gz",
@@ -51,7 +55,9 @@
       "archive_path": "inputs/rtl8852be-sdk-source.tar.gz",
       "sdk_path": "external/rkwifibt/drivers/rtl8852be",
       "required_for": "Wi-Fi module build",
-      "distribution": "external recovered source input"
+      "distribution": "tracked in Git under vendor/sbc3576-inputs/",
+      "repository_path": "vendor/sbc3576-inputs/rtl8852be-sdk-source.tar.gz",
+      "download_url": "https://raw.githubusercontent.com/mir-stream/haos-sbc3576/sbc3576-18.5-20261111/vendor/sbc3576-inputs/rtl8852be-sdk-source.tar.gz"
     }
   ],
   "baseline_outputs": [
@@ -59,13 +65,15 @@
       "name": "haos_sbc3576-18.5.img.xz",
       "bytes": 440438364,
       "sha256": "d6613a3b4cef94019f31882a013539fd409314b0d2aeb98b67d6412c6bf48fee",
-      "archive_path": "baseline/haos_sbc3576-18.5.img.xz"
+      "archive_path": "baseline/haos_sbc3576-18.5.img.xz",
+      "download_url": "https://github.com/mir-stream/haos-sbc3576/releases/download/sbc3576-18.5-20261111/haos_sbc3576-18.5.img.xz"
     },
     {
       "name": "haos_sbc3576-18.5.raucb",
       "bytes": 162307615,
       "sha256": "2c891a6604b1d96eea00ae5c4c75edbc7c5cdbfb748004dc17c8b94f91a352ed",
-      "archive_path": "baseline/haos_sbc3576-18.5.raucb"
+      "archive_path": "baseline/haos_sbc3576-18.5.raucb",
+      "download_url": "https://github.com/mir-stream/haos-sbc3576/releases/download/sbc3576-18.5-20261111/haos_sbc3576-18.5.raucb"
     },
     {
       "name": "Image",
@@ -135,9 +143,10 @@
     }
   ],
   "distribution": {
-    "source": "public Git repository",
-    "binary_archives": "preserved separately; this manifest is not a public download service",
-    "private_backups": "private local archive only"
+    "source": "public Git repository, including all three vendor build inputs",
+    "binary_archives": "baseline .img.xz and .raucb on GitHub Releases; historical recovery and derivative archives remain separate",
+    "private_backups": "private local archive only",
+    "release_url": "https://github.com/mir-stream/haos-sbc3576/releases/tag/sbc3576-18.5-20261111"
   },
   "verification": {
     "asset_hashes": "recomputed from source and archive copies on 2026-11-11",

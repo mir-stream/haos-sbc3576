@@ -6,7 +6,7 @@ port_cache=${SBC3576_BUILD_CACHE:-${HOME}/.cache/haos-sbc3576}
 port_image=haos-sbc3576-builder:18.5
 
 if [[ ! -f "$port_root/vendor/sbc3576/external/rkwifibt/drivers/rtl8852be/Makefile" ]]; then
-    echo "Run tools/sbc3576/prepare_inputs.py with the verified inputs first." >&2
+    echo "Run python3 tools/sbc3576/prepare_inputs.py first." >&2
     exit 1
 fi
 if [[ ! -f "$port_root/buildroot/Makefile" ]]; then

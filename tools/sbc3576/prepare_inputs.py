@@ -17,12 +17,14 @@ def digest(path):
 
 
 def main():
+    root = Path(__file__).resolve().parents[2]
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("inputs", type=Path, help="directory containing the three input files")
+    parser.add_argument("inputs", nargs="?", type=Path,
+                        default=root / "vendor/sbc3576-inputs",
+                        help="input directory (default: tracked vendor/sbc3576-inputs)")
     args = parser.parse_args()
     if sys.version_info < (3, 12):
         parser.error("Python 3.12 or later is required for safe tar extraction")
-    root = Path(__file__).resolve().parents[2]
     manifest = json.loads((root / "Documentation/boards/sbc3576-assets.json").read_text())
     records = {item["name"]: item for item in manifest["build_inputs"]}
     firmware = root / "buildroot-external/board/boardcon/sbc3576/firmware"
